@@ -17,5 +17,5 @@ Challenging Space Invaders gaming development project using python, pygame, and 
 #### Contact:
 Alfono Fegura   
 
-(Yash Bhambhani)[github.com/yash-b]   
+[Yash Bhambhani](https://www.github.com/yash-b)   
 bhambhani.yash@gmail.com
