@@ -15,7 +15,9 @@ Challenging Space Invaders gaming development project using python, pygame, and 
 - Q: Quit game
 
 #### Contact:
-Alfono Fegura   
+[Alfonso Figuroa] (https://www.github.com/alfonsf1)  
+figueroa.a@csu.fullerton.edu  
+
 
 [Yash Bhambhani](https://www.github.com/yash-b)   
 bhambhani.yash@gmail.com
