@@ -51,6 +51,15 @@ def check_events(ai_settings, screen, stats, sb, play_button, play_button_high_s
             check_play_button(ai_settings, screen, stats, sb, play_button, play_button_high_scores, ship, aliens, bullets, mouse_x, mouse_y)
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_high_scores, ship, aliens, bullets, mouse_x, mouse_y):
+    """Displays high scores when clicked """
+    button_clicked = play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        f = open('high_score.txt', 'r')
+        file_contents = f.read()
+        print (file_contents)
+        f.close()
+
+
     """Start a new game when the player clicks Play."""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
