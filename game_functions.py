@@ -52,12 +52,55 @@ def check_events(ai_settings, screen, stats, sb, play_button, play_button_high_s
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_high_scores, ship, aliens, bullets, mouse_x, mouse_y):
     """Displays high scores when clicked """
+    GREEN = (0, 200, 0 )
+    font = pygame.font.SysFont(None, 48)
+    text_color = (GREEN)
+    # Set the background color.
+    bg_color = (0, 0, 0)
+    high_scores = []
     button_clicked = play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         f = open('high_score.txt', 'r')
         file_contents = f.read()
-        print (file_contents)
         f.close()
+
+        #score_image = font.render('test', True, text_color, ai_settings.bg_color)
+        X = 1200
+        Y = 800
+        display_surface = pygame.display.set_mode((X, Y ))
+        pygame.display.set_caption('HIGH SCORES')
+        font = pygame.font.Font('freesansbold.ttf', 12)
+        text = font.render(str(file_contents), True, text_color, bg_color)
+        textRect = text.get_rect()
+        textRect.center = (X // 2, Y // 2)
+
+        while True :
+            # completely fill the surface object
+            # with white color
+            display_surface.fill(bg_color)
+
+            # copying the text surface object
+            # to the display surface object
+            # at the center coordinate.
+            display_surface.blit(text, textRect)
+
+            # iterate over the list of Event objects
+            # that was returned by pygame.event.get() method.
+            for event in pygame.event.get() :
+
+                # if event object type is QUIT
+                # then quitting the pygame
+                # and program both.
+                if event.type == pygame.QUIT :
+
+                    # deactivates the pygame library
+                    pygame.quit()
+
+                    # quit the program.
+                    quit()
+
+                # Draws the surface object to the screen.
+                pygame.display.update()
 
 
     """Start a new game when the player clicks Play."""
