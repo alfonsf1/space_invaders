@@ -5,6 +5,7 @@ import pygame
 
 from bullet import Bullet
 from alien import Alien
+from alien_type_one import AlienTypeOne, AlienTypeTwo, AlienTypeThree
 
 def check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """Check if any aliens have reached the bottom of the screen."""
