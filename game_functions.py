@@ -1,11 +1,11 @@
 import sys
 from time import sleep
-
-import pygame
+from pygame.locals import *
+import pygame, sys, time
 
 from bullet import Bullet
 from alien import Alien
-from alien_type_one import AlienTypeOne, AlienTypeTwo, AlienTypeThree
+import high_score
 
 def check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """Check if any aliens have reached the bottom of the screen."""
@@ -59,6 +59,8 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_h
     # Set the background color.
     bg_color = (0, 0, 0)
     high_scores = []
+    pygame.init()
+    pygame.mixer.init()
     button_clicked = play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         f = open('high_score.txt', 'r')
@@ -108,6 +110,16 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_h
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
 
+        #pygame.mixer.pre_init(44100, 16, 2, 4096)
+        #pygame.mixer.init()
+        #pygame.mixer.music.load("spaceinvaders1.wav")
+        #pygame.mixer.music.play(loops, start)
+
+        soundObj = pygame.mixer.Sound('spaceinvaders1.wav')
+        soundObj.play()
+
+
+
         # Reset the game settings.
         ai_settings.initialize_dynamic_settings()
 
@@ -147,11 +159,15 @@ def check_fleet_edges(ai_settings, aliens):
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     """Respond to keypresses."""
+
+    shoot_effect = pygame.mixer.Sound('shoot.wav')
+
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
+        shoot_effect.play()
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
         sys.exit()

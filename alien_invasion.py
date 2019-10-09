@@ -7,25 +7,7 @@ from scoreboard import Scoreboard
 from button import Button
 from button import Button_High_Scores
 from ship import Ship
-import game_functions as  gf
-
-# ToDO (X = Completed, W = Work-in-progress)
-# [W] Startup screen with: name of the game, the values and images of the aliens, two buttons - Fonzi
-# [X] High scores: sorting, save, and load from disk. -Yoshi
-# [W] Three types of aliens, with different point, and animation. -Yoshi
-#       -> Alien 1: 50 points
-#       -> Alien 2: 75 points
-#       -> Alien 3: 100 points
-#       -> UFO: random between (100-150 times)
-# [ ] UFO alien at random times with random points it is worth. -Yoshi
-# [ ] Ship with destruction animation (10-12 frames) -Yoshi
-# [ ] Bunkers are damaged by aliens and ship with 3 HP.
-# [ ] BG music, laser sounds, destruction sounds.
-# [X] Play button to begin and restart games. -Fonzi
-# [W] OOP for aliens and its classes. -Yoshi
-# [X] Upload on github. -Yoshi and Fonzi
-
-
+import game_functions as gf
 
 def run_game():
     # Initialize pygame, settings, and screen object.
