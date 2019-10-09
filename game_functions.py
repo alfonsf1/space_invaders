@@ -285,10 +285,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
         textsurface = enemyFont.render('   =  ?????', False, (237, 28, 36))
         screen.blit(textsurface,(600,700))
 
-        enemy1 = pygame.image.load('enemy1.png')
-        enemy2 = pygame.image.load('enemy2.png')
-        enemy3 = pygame.image.load('enemy3.png')
-        mystery_enemy = pygame.image.load('mystery_enemy.png')
+        enemy1 = pygame.image.load('images/enemy1.png')
+        enemy2 = pygame.image.load('images/enemy2.png')
+        enemy3 = pygame.image.load('images/enemy3.png')
+        mystery_enemy = pygame.image.load('images/mystery_enemy.png')
 
         screen.blit(enemy1, (550,520))
         screen.blit(enemy2, (550,570))
