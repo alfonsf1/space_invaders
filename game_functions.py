@@ -273,17 +273,27 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
         textsurface = titleFont.render('Alien Invaders', False, (0, 0, 0))
         screen.blit(textsurface,(400,50))
 
-        textsurface = enemyFont.render('   =   10 pts', False, (78, 255, 87))
+        textsurface = enemyFont.render('   =   10 pts', False, (80, 255, 239))
         screen.blit(textsurface,(600,520))
 
-        textsurface = enemyFont.render('   =  20 pts', False, (80, 255, 239))
+        textsurface = enemyFont.render('   =  20 pts', False, (78, 255, 87))
         screen.blit(textsurface,(600,570))
 
         textsurface = enemyFont.render('   =  30 pts', False, (203, 0, 255))
         screen.blit(textsurface,(600,620))
 
         textsurface = enemyFont.render('   =  ?????', False, (237, 28, 36))
-        screen.blit(textsurface,(600,670))
+        screen.blit(textsurface,(600,700))
+
+        enemy1 = pygame.image.load('enemy1.png')
+        enemy2 = pygame.image.load('enemy2.png')
+        enemy3 = pygame.image.load('enemy3.png')
+        mystery_enemy = pygame.image.load('mystery_enemy.png')
+
+        screen.blit(enemy1, (550,520))
+        screen.blit(enemy2, (550,570))
+        screen.blit(enemy3, (550,620))
+        screen.blit(mystery_enemy, (550,700))
 
 
 
