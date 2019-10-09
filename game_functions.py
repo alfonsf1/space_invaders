@@ -270,7 +270,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
         enemyFont = pygame.font.SysFont(FONT, 40)
 
 
-        textsurface = titleFont.render('Alien Invaders', False, (0, 0, 0))
+        textsurface = titleFont.render('Alien Invaders', False, (78, 255, 87))
         screen.blit(textsurface,(400,50))
 
         textsurface = enemyFont.render('   =   10 pts', False, (80, 255, 239))
