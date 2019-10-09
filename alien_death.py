@@ -1,5 +1,7 @@
 from os.path import abspath, dirname
 from pygame import *
+from random import choice
+from spaceinvaders import *
 
 BASE_PATH = abspath(dirname(__file__))
 FONT_PATH = BASE_PATH + '/fonts/'

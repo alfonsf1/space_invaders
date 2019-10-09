@@ -1,19 +1,10 @@
 import sys
 from time import sleep
-from pygame.locals import *
-import pygame, sys, time
+
+import pygame
 
 from bullet import Bullet
 from alien import Alien
-from blocker import Blocker
-import high_score
-
-WHITE = (255, 255, 255)
-GREEN = (78, 255, 87)
-YELLOW = (241, 255, 0)
-BLUE = (80, 255, 239)
-PURPLE = (203, 0, 255)
-RED = (237, 28, 36)
 
 def check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """Check if any aliens have reached the bottom of the screen."""
@@ -67,8 +58,6 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_h
     # Set the background color.
     bg_color = (0, 0, 0)
     high_scores = []
-    pygame.init()
-    pygame.mixer.init()
     button_clicked = play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         f = open('high_score.txt', 'r')
@@ -118,16 +107,6 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, play_button_h
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
 
-        #pygame.mixer.pre_init(44100, 16, 2, 4096)
-        #pygame.mixer.init()
-        #pygame.mixer.music.load("spaceinvaders1.wav")
-        #pygame.mixer.music.play(loops, start)
-
-        soundObj = pygame.mixer.Sound('spaceinvaders1.wav')
-        soundObj.play()
-
-
-
         # Reset the game settings.
         ai_settings.initialize_dynamic_settings()
 
@@ -167,15 +146,11 @@ def check_fleet_edges(ai_settings, aliens):
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     """Respond to keypresses."""
-
-    shoot_effect = pygame.mixer.Sound('shoot.wav')
-
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
-        shoot_effect.play()
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
         sys.exit()
@@ -255,53 +230,11 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
 
     # Draw the score information.
     sb.show_score()
-    blocker = pygame.image.load('images/blocker.png')
-    screen.blit(blocker, (200, 650))
-    screen.blit(blocker, (500, 650))
-    screen.blit(blocker, (800, 650))
+
      # Draw the play button if the game is inactive.
     if not stats.game_active:
         play_button.draw_button()
         play_button_high_scores.draw_button()
-
-        FONT = 'space_invaders.ttf'
-
-        pygame.font.init()
-
-
-        titleFont = pygame.font.SysFont(FONT, 80)
-        enemyFont = pygame.font.SysFont(FONT, 40)
-
-
-        textsurface = titleFont.render('Alien Invaders', False, (78, 255, 87))
-        screen.blit(textsurface,(400,50))
-
-        textsurface = enemyFont.render('   =   10 pts', False, (80, 255, 239))
-        screen.blit(textsurface,(600,520))
-
-        textsurface = enemyFont.render('   =  20 pts', False, (78, 255, 87))
-        screen.blit(textsurface,(600,570))
-
-        textsurface = enemyFont.render('   =  30 pts', False, (203, 0, 255))
-        screen.blit(textsurface,(600,620))
-
-        textsurface = enemyFont.render('   =  ?????', False, (237, 28, 36))
-        screen.blit(textsurface,(600,700))
-
-        enemy1 = pygame.image.load('images/enemy1.png')
-        enemy2 = pygame.image.load('images/enemy2.png')
-        enemy3 = pygame.image.load('images/enemy3.png')
-        mystery_enemy = pygame.image.load('images/mystery.png')
-        
-
-        screen.blit(enemy1, (550,520))
-        screen.blit(enemy2, (550,570))
-        screen.blit(enemy3, (550,620))
-        screen.blit(mystery_enemy, (550,700))
-
-
-
-
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
@@ -315,7 +248,6 @@ def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
         # Update scoreboard.
         sb.prep_ships()
-
     else:
         stats.game_active = False
         pygame.mouse.set_visible(True)
@@ -333,14 +265,12 @@ def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 def update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets):
     """ Check if the fleet is at an edge, then update the postions of all aliens in the fleet. """
-
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # Look for alien-ship collisions.
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets)
-
 
     # Look for aliens hitting the bottom of the screen.
     check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets)

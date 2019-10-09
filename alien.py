@@ -2,40 +2,34 @@ import pygame
 from pygame.sprite import Sprite
 
 class Alien(Sprite):
-    """A class to represent a single alien in the fleet."""
-
-    def __init__(self, ai_settings, screen):
-        """Initialize the alien, and set its starting position."""
-        super(Alien, self).__init__()
-        self.screen = screen
-        self.ai_settings = ai_settings
-
-        # Load the alien image, and set its rect attribute.
-        self.image = pygame.image.load('images/enemy1.png')
-        #self.image = pygame.image.load('/Users/fonz/Desktop/python/alienInvaders/images/alien.bmp')
+    """A super class to represent all base aliens in the fleet."""
+    def __init__(self, row, column):
+        sprite.Sprite.__init__(self)
+        self.row = row
+        self.column = column
+        self.images = []
+        self.load_images()
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
 
-        # Start each new alien near the top left of the screen.
-        self.rect.x = self.rect.width
-        self.rect.y = self.rect.height
+    def toggle_image(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+        self.image = self.images[self.index]
 
-        # Store the alien's exact position.
-        self.x = float(self.rect.x)
+    def update(self, *args):
+        game.screen.blit(self.image, self.rect)
 
-    def blitme(self):
-        """Draw the alien at its current location."""
-        self.screen.blit(self.image, self.rect)
-
-    def check_edges(self):
-        """Return True if alien is at edge of screen."""
-        screen_rect = self.screen.get_rect()
-        if self.rect.right >= screen_rect.right:
-            return True
-        elif self.rect.left <= 0:
-            return True
-
-    def update(self):
-        """Move the alien right or left."""
-        self.x += (self.ai_settings.alien_speed_factor *
-                        self.ai_settings.fleet_direction)
-        self.rect.x = self.x
+    def load_images(self):
+        images = {0: ['1_2', '1_1'],
+                  1: ['2_2', '2_1'],
+                  2: ['2_2', '2_1'],
+                  3: ['3_1', '3_2'],
+                  4: ['3_1', '3_2'],
+                  }
+        img1, img2 = (IMAGES['enemy{}'.format(img_num)] for img_num in
+                      images[self.row])
+        self.images.append(transform.scale(img1, (40, 35)))
+        self.images.append(transform.scale(img2, (40, 35)))

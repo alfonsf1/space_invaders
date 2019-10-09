@@ -1,8 +1,10 @@
 from pygame import *
+from pygame.sprite import Sprite
 
-class Blocker(sprite.Sprite):
+class Blocker(Sprite):
+    """A class to represent all base aliens in the fleet."""
     def __init__(self, size, color, row, column):
-        sprite.Sprite.__init__(self)
+        Sprite.__init__(self)
         self.height = size
         self.width = size
         self.color = color
