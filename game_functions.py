@@ -255,7 +255,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
 
     # Draw the score information.
     sb.show_score()
-
+    blocker = pygame.image.load('images/blocker.png')
+    screen.blit(blocker, (200, 650))
+    screen.blit(blocker, (500, 650))
+    screen.blit(blocker, (800, 650))
      # Draw the play button if the game is inactive.
     if not stats.game_active:
         play_button.draw_button()
@@ -288,12 +291,14 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
         enemy1 = pygame.image.load('images/enemy1.png')
         enemy2 = pygame.image.load('images/enemy2.png')
         enemy3 = pygame.image.load('images/enemy3.png')
-        mystery_enemy = pygame.image.load('images/mystery_enemy.png')
+        mystery_enemy = pygame.image.load('images/mystery.png')
+        
 
         screen.blit(enemy1, (550,520))
         screen.blit(enemy2, (550,570))
         screen.blit(enemy3, (550,620))
         screen.blit(mystery_enemy, (550,700))
+
 
 
 
