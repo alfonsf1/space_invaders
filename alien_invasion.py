@@ -7,7 +7,9 @@ from scoreboard import Scoreboard
 from button import Button
 from button import Button_High_Scores
 from ship import Ship
+from blocker import Blocker
 import game_functions as gf
+
 
 def run_game():
     # Initialize pygame, settings, and screen object.
@@ -46,6 +48,7 @@ def run_game():
             ship.update()
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets)
+
 
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button, play_button_high_scores)
 

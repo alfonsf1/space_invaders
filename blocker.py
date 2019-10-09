@@ -1,3 +1,5 @@
+from pygame import *
+
 class Blocker(sprite.Sprite):
     def __init__(self, size, color, row, column):
         sprite.Sprite.__init__(self)
