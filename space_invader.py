@@ -478,6 +478,10 @@ class SpaceInvaders(object):
         self.enemy4 = transform.scale(self.enemy4, (80, 40))
         self.logo = IMAGES['si-background']
         self.logo = transform.scale(self.logo, (500, 125))
+        self.play_button = Text(FONT, 18, 'Play', GREEN, 390, 455)
+        self.high_score_button = Text(FONT, 18, 'High Score', GREEN, 350, 480)
+        self.play_button.draw(self.screen)
+        self.high_score_button.draw(self.screen)
         self.screen.blit(self.logo, (170, 100))
         self.screen.blit(self.enemy1, (318, 270))
         self.screen.blit(self.enemy2, (318, 320))
