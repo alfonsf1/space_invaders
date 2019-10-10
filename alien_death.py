@@ -1,7 +1,6 @@
 from os.path import abspath, dirname
 from pygame import *
 from random import choice
-from spaceinvaders import *
 
 BASE_PATH = abspath(dirname(__file__))
 FONT_PATH = BASE_PATH + '/fonts/'
@@ -23,7 +22,7 @@ IMG_NAMES = ['ship', 'mystery',
              'enemy2_1', 'enemy2_2',
              'enemy3_1', 'enemy3_2',
              'explosionblue', 'explosiongreen', 'explosionpurple',
-             'laser', 'enemylaser']
+             'laser', 'enemylaser', 'si-background']
 IMAGES = {name: image.load(IMAGE_PATH + '{}.png'.format(name)).convert_alpha()
           for name in IMG_NAMES}
 

@@ -330,17 +330,16 @@ class SpaceInvaders(object):
         self.gameOver = False
         # Counter for enemy starting position (increased each new round)
         self.enemyPosition = ENEMY_DEFAULT_POSITION
-        self.titleText = Text(FONT, 50, 'Space Invaders', WHITE, 164, 155)
-        self.titleText2 = Text(FONT, 25, 'Press any key to continue', WHITE,
-                               201, 225)
+        self.titleText2 = Text(FONT, 25, 'Press Space', WHITE,
+                               320, 225)
         self.gameOverText = Text(FONT, 50, 'Game Over', WHITE, 250, 270)
         self.nextRoundText = Text(FONT, 50, 'Next Round', WHITE, 240, 270)
         self.enemy1Text = Text(FONT, 25, '   =   10 pts', GREEN, 368, 270)
         self.enemy2Text = Text(FONT, 25, '   =  20 pts', BLUE, 368, 320)
         self.enemy3Text = Text(FONT, 25, '   =  30 pts', PURPLE, 368, 370)
         self.enemy4Text = Text(FONT, 25, '   =  ?????', RED, 368, 420)
-        self.scoreText = Text(FONT, 20, 'Score', WHITE, 5, 5)
-        self.livesText = Text(FONT, 20, 'Lives ', WHITE, 640, 5)
+        self.scoreText = Text(FONT, 20, '', WHITE, 5, 5)
+        self.livesText = Text(FONT, 20, '', WHITE, 640, 5)
 
         self.life1 = Life(715, 3)
         self.life2 = Life(742, 3)
@@ -372,7 +371,7 @@ class SpaceInvaders(object):
         blockerGroup = sprite.Group()
         for row in range(4):
             for column in range(9):
-                blocker = Blocker(10, GREEN, row, column)
+                blocker = Blocker(10, RED, row, column)
                 blocker.rect.x = 50 + (200 * number) + (column * blocker.width)
                 blocker.rect.y = BLOCKERS_POSITION + (row * blocker.height)
                 blockerGroup.add(blocker)
@@ -477,6 +476,9 @@ class SpaceInvaders(object):
         self.enemy3 = transform.scale(self.enemy3, (40, 40))
         self.enemy4 = IMAGES['mystery']
         self.enemy4 = transform.scale(self.enemy4, (80, 40))
+        self.logo = IMAGES['si-background']
+        self.logo = transform.scale(self.logo, (500, 125))
+        self.screen.blit(self.logo, (170, 100))
         self.screen.blit(self.enemy1, (318, 270))
         self.screen.blit(self.enemy2, (318, 320))
         self.screen.blit(self.enemy3, (318, 370))
@@ -561,7 +563,6 @@ class SpaceInvaders(object):
         while True:
             if self.mainScreen:
                 self.screen.blit(self.background, (0, 0))
-                self.titleText.draw(self.screen)
                 self.titleText2.draw(self.screen)
                 self.enemy1Text.draw(self.screen)
                 self.enemy2Text.draw(self.screen)
@@ -591,7 +592,7 @@ class SpaceInvaders(object):
                     if currentTime - self.gameTimer < 3000:
                         self.screen.blit(self.background, (0, 0))
                         self.scoreText2 = Text(FONT, 20, str(self.score),
-                                               GREEN, 85, 5)
+                                               GREEN, 5, 5)
                         self.scoreText.draw(self.screen)
                         self.scoreText2.draw(self.screen)
                         self.nextRoundText.draw(self.screen)
@@ -610,7 +611,7 @@ class SpaceInvaders(object):
                     self.screen.blit(self.background, (0, 0))
                     self.allBlockers.update(self.screen)
                     self.scoreText2 = Text(FONT, 20, str(self.score), GREEN,
-                                           85, 5)
+                                           5, 5)
                     self.scoreText.draw(self.screen)
                     self.scoreText2.draw(self.screen)
                     self.livesText.draw(self.screen)
