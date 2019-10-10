@@ -35,12 +35,12 @@ class Button():
         self.screen_rect = SCREEN.get_rect()
         # Set the dimensions and properties of the button.
         self.width, self.height = 200, 50
-        self.button_color = GREEN
+        self.button_color = PURPLE
         self.text_color = WHITE
         self.font = font.SysFont(None, 48)
 
         # Build the button's rect object and center it.
-        self.rect = Rect(320, 465, self.width, self.height)
+        self.rect = Rect(320, 430, self.width, self.height)
         #self.rect.center = self.screen_rect.center
 
         # The button message needs to be prepped only once.
@@ -65,12 +65,12 @@ class Button_High_Scores():
         self.screen_rect = SCREEN.get_rect()
         # Set the dimensions and properties of the button.
         self.width, self.height = 200, 50
-        self.button_color = GREEN
+        self.button_color = PURPLE
         self.text_color = WHITE
         self.font = font.SysFont(None, 48)
 
         # Build the button's rect object and center it.
-        self.rect = Rect(320, 520, self.width, self.height)
+        self.rect = Rect(320, 490, self.width, self.height)
         #self.rect.center = self.screen_rect.center
 
         # The button message needs to be prepped only once.
@@ -393,17 +393,13 @@ class SpaceInvaders(object):
         self.gameOver = False
         # Counter for enemy starting position (increased each new round)
         self.enemyPosition = ENEMY_DEFAULT_POSITION
-        self.titleText2 = Text(FONT, 25, 'Press Space', WHITE,
-                               320, 225)
         self.gameOverText = Text(FONT, 50, 'Game Over', WHITE, 250, 270)
         self.nextRoundText = Text(FONT, 50, 'Next Round', WHITE, 240, 270)
-        self.enemy1Text = Text(FONT, 25, '   =   10 pts', GREEN, 368, 270)
-        self.enemy2Text = Text(FONT, 25, '   =  20 pts', BLUE, 368, 320)
-        self.enemy3Text = Text(FONT, 25, '   =  30 pts', PURPLE, 368, 370)
-        self.enemy4Text = Text(FONT, 25, '   =  ?????', RED, 368, 420)
-        self.scoreText = Text(FONT, 20, '', WHITE, 5, 5)
-        self.livesText = Text(FONT, 20, '', WHITE, 640, 5)
-
+        self.enemy1Text = Text(FONT, 25, '   =   10 pts', GREEN, 368, 225)
+        self.enemy2Text = Text(FONT, 25, '   =  20 pts', BLUE, 368, 275)
+        self.enemy3Text = Text(FONT, 25, '   =  30 pts', PURPLE, 368, 325)
+        self.enemy4Text = Text(FONT, 25, '   =  ?????', RED, 368, 375)
+        self.highScoreText = Text(FONT, 35, 'High Scores', PURPLE, 290, 135)
         self.life1 = Life(715, 3)
         self.life2 = Life(742, 3)
         self.life3 = Life(769, 3)
@@ -434,7 +430,7 @@ class SpaceInvaders(object):
         blockerGroup = sprite.Group()
         for row in range(4):
             for column in range(9):
-                blocker = Blocker(10, RED, row, column)
+                blocker = Blocker(10, PURPLE, row, column)
                 blocker.rect.x = 50 + (200 * number) + (column * blocker.width)
                 blocker.rect.y = BLOCKERS_POSITION + (row * blocker.height)
                 blockerGroup.add(blocker)
@@ -540,12 +536,12 @@ class SpaceInvaders(object):
         self.enemy4 = IMAGES['mystery']
         self.enemy4 = transform.scale(self.enemy4, (80, 40))
         self.logo = IMAGES['si-background']
-        self.logo = transform.scale(self.logo, (500, 125))
-        self.screen.blit(self.logo, (170, 100))
-        self.screen.blit(self.enemy1, (318, 270))
-        self.screen.blit(self.enemy2, (318, 320))
-        self.screen.blit(self.enemy3, (318, 370))
-        self.screen.blit(self.enemy4, (299, 420))
+        self.logo = transform.scale(self.logo, (750, 175))
+        self.screen.blit(self.logo, (45, 50))
+        self.screen.blit(self.enemy1, (318, 218))
+        self.screen.blit(self.enemy2, (318, 268))
+        self.screen.blit(self.enemy3, (318, 318))
+        self.screen.blit(self.enemy4, (299, 368))
 
 
     def check_collisions(self):
@@ -653,7 +649,10 @@ class SpaceInvaders(object):
                             file_contents = []
                             with open('high_score.txt', 'r') as f:
                                 file_contents = f.readlines()
-                            print(file_contents[1])
+                            file_contents = str(file_contents)
+                            remove_char = ["'", "\\n", ",", "[", "]"]
+                            for char in remove_char:
+                                file_contents = file_contents.replace(char,"")
                             #score_image = font.render('test', True, text_color, ai_settings.bg_color)
                             X = 800
                             Y = 600
@@ -672,8 +671,8 @@ class SpaceInvaders(object):
                                 # completely fill the surface object
                                 # with white color
                                 display_surface.blit(self.background, (0, 0))
-
                                 # display.update()
+                                self.highScoreText.draw(self.screen)
                                 display_surface.blit(text_1, textRect)
                                 display.update()
                                 sleep(5)
@@ -708,10 +707,8 @@ class SpaceInvaders(object):
                         self.screen.blit(self.background, (0, 0))
                         self.scoreText2 = Text(FONT, 20, str(self.score),
                                                GREEN, 5, 5)
-                        self.scoreText.draw(self.screen)
                         self.scoreText2.draw(self.screen)
                         self.nextRoundText.draw(self.screen)
-                        self.livesText.draw(self.screen)
                         self.livesGroup.update()
                         self.check_input()
 
@@ -727,9 +724,7 @@ class SpaceInvaders(object):
                     self.allBlockers.update(self.screen)
                     self.scoreText2 = Text(FONT, 20, str(self.score), GREEN,
                                            5, 5)
-                    self.scoreText.draw(self.screen)
                     self.scoreText2.draw(self.screen)
-                    self.livesText.draw(self.screen)
                     self.check_input()
                     self.enemies.update(currentTime)
                     self.allSprites.update(self.keys, currentTime)
