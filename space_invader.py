@@ -19,10 +19,71 @@
 # [X] Upload on github. -Yoshi and Fonzi
 
 from pygame import *
+from pygame.locals import *
 import sys
 from os.path import abspath, dirname
 from random import choice
 from alien_death import *
+
+class Button():
+
+    def __init__(self, msg):
+        """Initialize button attributes."""
+        self.screen = SCREEN
+        self.screen_rect = SCREEN.get_rect()
+        # Set the dimensions and properties of the button.
+        self.width, self.height = 200, 50
+        self.button_color = GREEN
+        self.text_color = WHITE
+        self.font = font.SysFont(None, 48)
+
+        # Build the button's rect object and center it.
+        self.rect = Rect(390, 455, self.width, self.height)
+        #self.rect.center = self.screen_rect.center
+
+        # The button message needs to be prepped only once.
+        self.prep_msg(msg)
+
+    def prep_msg(self, msg):
+        """Turn msg into a rendered image and center text on the button."""
+        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
+        self.msg_image_rect = self.msg_image.get_rect()
+        self.msg_image_rect.center = self.rect.center
+
+    def draw_button(self):
+        # Draw blank button and then draw message.
+        self.screen.fill(self.button_color, self.rect)
+        self.screen.blit(self.msg_image, self.msg_image_rect)
+
+class Button_High_Scores():
+
+    def __init__(self, msg):
+        """Initialize button attributes."""
+        self.screen = SCREEN
+        self.screen_rect = SCREEN.get_rect()
+        # Set the dimensions and properties of the button.
+        self.width, self.height = 200, 50
+        self.button_color = GREEN
+        self.text_color = WHITE
+        self.font = font.SysFont(None, 48)
+
+        # Build the button's rect object and center it.
+        self.rect = Rect(350, 480, self.width, self.height)
+        #self.rect.center = self.screen_rect.center
+
+        # The button message needs to be prepped only once.
+        self.prep_msg(msg)
+
+    def prep_msg(self, msg):
+        """Turn msg into a rendered image and center text on the button."""
+        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
+        self.msg_image_rect = self.msg_image.get_rect()
+        self.msg_image_rect.center = self.rect.center
+
+    def draw_button(self):
+        # Draw blank button and then draw message.
+        self.screen.fill(self.button_color, self.rect)
+        self.screen.blit(self.msg_image, self.msg_image_rect)
 
 
 class Ship(sprite.Sprite):
@@ -346,6 +407,12 @@ class SpaceInvaders(object):
         self.life3 = Life(769, 3)
         self.livesGroup = sprite.Group(self.life1, self.life2, self.life3)
 
+        # Make the Play button.
+        self.play_button = Button("Play")
+
+        # Make the Play button.
+        self.play_button_high_scores = Button_High_Scores("High Scores")
+
     def reset(self, score):
         self.player = Ship()
         self.playerGroup = sprite.Group(self.player)
@@ -478,10 +545,6 @@ class SpaceInvaders(object):
         self.enemy4 = transform.scale(self.enemy4, (80, 40))
         self.logo = IMAGES['si-background']
         self.logo = transform.scale(self.logo, (500, 125))
-        self.play_button = Text(FONT, 18, 'Play', GREEN, 390, 455)
-        self.high_score_button = Text(FONT, 18, 'High Score', GREEN, 350, 480)
-        self.play_button.draw(self.screen)
-        self.high_score_button.draw(self.screen)
         self.screen.blit(self.logo, (170, 100))
         self.screen.blit(self.enemy1, (318, 270))
         self.screen.blit(self.enemy2, (318, 320))
@@ -565,9 +628,14 @@ class SpaceInvaders(object):
 
     def main(self):
         while True:
-            if self.mainScreen:
+
+            if self.mainScreen and not self.startGame:
+                for e in event.get():
+                    if e.type == MOUSEBUTTONDOWN:
+                        mouse_x, mouse_y = mouse.get_pos()
+
+                self.button_clicked = self.play_button.rect.collidepoint(mouse_x, mouse_y)
                 self.screen.blit(self.background, (0, 0))
-                self.titleText2.draw(self.screen)
                 self.enemy1Text.draw(self.screen)
                 self.enemy2Text.draw(self.screen)
                 self.enemy3Text.draw(self.screen)
