@@ -21,6 +21,7 @@
 from pygame import *
 from pygame.locals import *
 import sys
+from time import *
 from os.path import abspath, dirname
 from random import choice
 from alien_death import *
@@ -39,7 +40,7 @@ class Button():
         self.font = font.SysFont(None, 48)
 
         # Build the button's rect object and center it.
-        self.rect = Rect(390, 455, self.width, self.height)
+        self.rect = Rect(320, 465, self.width, self.height)
         #self.rect.center = self.screen_rect.center
 
         # The button message needs to be prepped only once.
@@ -69,7 +70,7 @@ class Button_High_Scores():
         self.font = font.SysFont(None, 48)
 
         # Build the button's rect object and center it.
-        self.rect = Rect(350, 480, self.width, self.height)
+        self.rect = Rect(320, 520, self.width, self.height)
         #self.rect.center = self.screen_rect.center
 
         # The button message needs to be prepped only once.
@@ -624,7 +625,6 @@ class SpaceInvaders(object):
     def main(self):
 
         while True:
-
             if self.mainScreen and not self.startGame:
                 self.screen.blit(self.background, (0, 0))
                 self.enemy1Text.draw(self.screen)
@@ -650,47 +650,44 @@ class SpaceInvaders(object):
                         button_clicked_high_score = self.play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
 
                         if button_clicked_high_score:
-                            f = open('high_score.txt', 'r')
-                            file_contents = f.read()
-                            f.close()
-
+                            file_contents = []
+                            with open('high_score.txt', 'r') as f:
+                                file_contents = f.readlines()
+                            print(file_contents[1])
                             #score_image = font.render('test', True, text_color, ai_settings.bg_color)
                             X = 800
                             Y = 600
-                            display_surface = display.set_mode((X, Y ))
+                            font.init()
+                            # text_1 = Text(FONT, 25, '   =  ?????', RED, 368, 420)
+                            text_color = WHITE
+                            display_surface = display.set_mode((X, Y), 0, 32)
                             display.set_caption('HIGH SCORES')
-                            font_1 = font.Font('freesansbold.ttf', 12)
-                            text_1 = font.render(str(file_contents), True, text_color, bg_color)
+                            font_1 = font.Font('freesansbold.ttf', 16)
+                            text_1 = font_1.render(str(file_contents), True, text_color)
                             textRect = text_1.get_rect()
                             textRect.center = (X // 2, Y // 2)
-
-                            while True :
+        
+                            while True:
+                                #Check for the QUIT event.
                                 # completely fill the surface object
                                 # with white color
-                                display_surface.fill(WHITE)
+                                display_surface.blit(self.background, (0, 0))
 
+                                # display.update()
+                                display_surface.blit(text_1, textRect)
+                                display.update()
+                                sleep(3)
                                 # copying the text surface object
                                 # to the display surface object
                                 # at the center coordinate.
-                                display_surface.blit(text_1, textRect)
-
-                                # iterate over the list of Event objects
-                                # that was returned by pygame.event.get() method.
-                                #for event in event.get() :
-
-                                    # if event object type is QUIT
-                                    # then quitting the pygame
-                                    # and program both.
-                                if e.type == QUIT :
-
-                                        # deactivates the pygame library
-                                    pygame.quit()
-
-                                        # quit the program.
-                                    quit()
+                                # deactivates the pygame library
+                                sys.exit()
 
 
                         if button_clicked_play:
+                            bg_music = mixer.Sound(SOUND_PATH + 'si_background.wav')
+                            bg_music.set_volume(0.2)
+                            bg_music.play()
                             # Only create blockers on a new game, not a new round
                             self.allBlockers = sprite.Group(self.make_blockers(0),
                                                             self.make_blockers(1),
@@ -707,9 +704,6 @@ class SpaceInvaders(object):
             elif self.startGame:
                 if not self.enemies and not self.explosionsGroup:
                     currentTime = time.get_ticks()
-                    bg_music = mixer.Sound(SOUND_PATH + 'si_background.wav')
-                    bg_music.set_volume(0.2)
-                    bg_music.play()
                     if currentTime - self.gameTimer < 3000:
                         self.screen.blit(self.background, (0, 0))
                         self.scoreText2 = Text(FONT, 20, str(self.score),
