@@ -676,7 +676,7 @@ class SpaceInvaders(object):
                                 # display.update()
                                 display_surface.blit(text_1, textRect)
                                 display.update()
-                                sleep(3)
+                                sleep(5)
                                 # copying the text surface object
                                 # to the display surface object
                                 # at the center coordinate.
@@ -686,7 +686,7 @@ class SpaceInvaders(object):
 
                         if button_clicked_play:
                             bg_music = mixer.Sound(SOUND_PATH + 'si_background.wav')
-                            bg_music.set_volume(0.2)
+                            bg_music.set_volume(0.5)
                             bg_music.play()
                             # Only create blockers on a new game, not a new round
                             self.allBlockers = sprite.Group(self.make_blockers(0),
