@@ -25,6 +25,7 @@ from os.path import abspath, dirname
 from random import choice
 from alien_death import *
 
+
 class Button():
 
     def __init__(self, msg):
@@ -407,12 +408,6 @@ class SpaceInvaders(object):
         self.life3 = Life(769, 3)
         self.livesGroup = sprite.Group(self.life1, self.life2, self.life3)
 
-        # Make the Play button.
-        self.play_button = Button("Play")
-
-        # Make the Play button.
-        self.play_button_high_scores = Button_High_Scores("High Scores")
-
     def reset(self, score):
         self.player = Ship()
         self.playerGroup = sprite.Group(self.player)
@@ -627,33 +622,87 @@ class SpaceInvaders(object):
                 sys.exit()
 
     def main(self):
+
         while True:
 
             if self.mainScreen and not self.startGame:
-                for e in event.get():
-                    if e.type == MOUSEBUTTONDOWN:
-                        mouse_x, mouse_y = mouse.get_pos()
-
-                self.button_clicked = self.play_button.rect.collidepoint(mouse_x, mouse_y)
                 self.screen.blit(self.background, (0, 0))
                 self.enemy1Text.draw(self.screen)
                 self.enemy2Text.draw(self.screen)
                 self.enemy3Text.draw(self.screen)
                 self.enemy4Text.draw(self.screen)
+
+
+                # Make the Play button.
+                self.play_button = Button("Play")
+                # Make the Play button.
+                self.play_button_high_scores = Button_High_Scores("High Scores")
+
+                self.play_button.draw_button()
+                self.play_button_high_scores.draw_button()
+
                 self.create_main_menu()
                 for e in event.get():
+
+                    if e.type == MOUSEBUTTONDOWN:
+                        mouse_x, mouse_y = mouse.get_pos()
+                        button_clicked_play = self.play_button.rect.collidepoint(mouse_x, mouse_y)
+                        button_clicked_high_score = self.play_button_high_scores.rect.collidepoint(mouse_x, mouse_y)
+
+                        if button_clicked_high_score:
+                            f = open('high_score.txt', 'r')
+                            file_contents = f.read()
+                            f.close()
+
+                            #score_image = font.render('test', True, text_color, ai_settings.bg_color)
+                            X = 800
+                            Y = 600
+                            display_surface = display.set_mode((X, Y ))
+                            display.set_caption('HIGH SCORES')
+                            font_1 = font.Font('freesansbold.ttf', 12)
+                            text_1 = font.render(str(file_contents), True, text_color, bg_color)
+                            textRect = text_1.get_rect()
+                            textRect.center = (X // 2, Y // 2)
+
+                            while True :
+                                # completely fill the surface object
+                                # with white color
+                                display_surface.fill(WHITE)
+
+                                # copying the text surface object
+                                # to the display surface object
+                                # at the center coordinate.
+                                display_surface.blit(text_1, textRect)
+
+                                # iterate over the list of Event objects
+                                # that was returned by pygame.event.get() method.
+                                #for event in event.get() :
+
+                                    # if event object type is QUIT
+                                    # then quitting the pygame
+                                    # and program both.
+                                if e.type == QUIT :
+
+                                        # deactivates the pygame library
+                                    pygame.quit()
+
+                                        # quit the program.
+                                    quit()
+
+
+                        if button_clicked_play:
+                            # Only create blockers on a new game, not a new round
+                            self.allBlockers = sprite.Group(self.make_blockers(0),
+                                                            self.make_blockers(1),
+                                                            self.make_blockers(2),
+                                                            self.make_blockers(3))
+                            self.livesGroup.add(self.life1, self.life2, self.life3)
+                            self.reset(0)
+                            self.startGame = True
+                            self.mainScreen = False
+
                     if self.should_exit(e):
                         sys.exit()
-                    if e.type == KEYUP:
-                        # Only create blockers on a new game, not a new round
-                        self.allBlockers = sprite.Group(self.make_blockers(0),
-                                                        self.make_blockers(1),
-                                                        self.make_blockers(2),
-                                                        self.make_blockers(3))
-                        self.livesGroup.add(self.life1, self.life2, self.life3)
-                        self.reset(0)
-                        self.startGame = True
-                        self.mainScreen = False
 
             elif self.startGame:
                 if not self.enemies and not self.explosionsGroup:
