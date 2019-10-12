@@ -142,10 +142,11 @@ class Enemy(sprite.Sprite):
 
     def load_images(self):
         images = {0: ['1_2', '1_1'],
-                  1: ['2_2', '2_1'],
+                  1: ['1_2', '1_1'],
                   2: ['2_2', '2_1'],
-                  3: ['3_1', '3_2'],
+                  3: ['2_2', '2_1'],
                   4: ['3_1', '3_2'],
+                  5: ['3_1', '3_2'],
                   }
         img1, img2 = (IMAGES['enemy{}'.format(img_num)] for img_num in
                       images[self.row])
@@ -494,12 +495,12 @@ class SpaceInvaders(object):
                             self.sounds['shoot2'].play()
 
     def make_enemies(self):
-        enemies = EnemiesGroup(10, 5)
+        enemies = EnemiesGroup(15, 5)
         for row in range(5):
-            for column in range(10):
+            for column in range(15):
                 enemy = Enemy(row, column)
                 enemy.rect.x = 157 + (column * 50)
-                enemy.rect.y = self.enemyPosition + (row * 45)
+                enemy.rect.y = self.enemyPosition + (row * 55)
                 enemies.add(enemy)
 
         self.enemies = enemies
@@ -665,7 +666,7 @@ class SpaceInvaders(object):
                             text_1 = font_1.render(str(file_contents), True, text_color)
                             textRect = text_1.get_rect()
                             textRect.center = (X // 2, Y // 2)
-        
+
                             while True:
                                 #Check for the QUIT event.
                                 # completely fill the surface object
