@@ -1,35 +1,128 @@
 import pygame
+
 from pygame.sprite import Sprite
 
+
 class Alien(Sprite):
-    """A super class to represent all base aliens in the fleet."""
-    def __init__(self, row, column):
-        sprite.Sprite.__init__(self)
-        self.row = row
-        self.column = column
-        self.images = []
-        self.load_images()
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = self.image.get_rect()
+    def __init__(self, ai_settings, screen, count, image1, image2, image3, image4, image5, image6):
+        super(Alien, self).__init__()
+        self.screen = screen
+        self.ai_settings = ai_settings
+        if count == 1:
+            self.image = image1
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 1
+            self.destroyed = 0
+        elif count == 2:
+            self.image = image2
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 2
+            self.destroyed = 0
+        elif count == 3:
+            self.image = image3
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 3
+            self.destroyed = 0
+        elif count == 4:
+            self.image = image4
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 4
+            self.destroyed = 0
+        elif count == 5:
+            self.image = image5
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 5
+            self.destroyed = 0
+        elif count == 6:
+            self.image = image6
+            self.rect = self.image.get_rect()
+            self.rect.x = self.rect.width
+            self.rect.y = self.rect.height
+            self.x = float(self.rect.x)
+            self.alien_type = 6
+            self.destroyed = 0
 
-    def toggle_image(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[self.index]
+    def check_edges(self):
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
 
-    def update(self, *args):
-        game.screen.blit(self.image, self.rect)
+    def update(self, count, screen_updates, image1, image2, image3, image4, image5, image6, aliens, ai_settings,
+               screen):
+        if count == 1 and screen_updates % 120 == 0:
+            if self.alien_type == 1:
+                self.image = image2
+            elif self.alien_type == 2:
+                self.image = image1
+            if self.alien_type == 3:
+                self.image = image4
+            elif self.alien_type == 4:
+                self.image = image3
+            if self.alien_type == 5:
+                self.image = image6
+            elif self.alien_type == 6:
+                self.image = image5
+        elif count == 2 and screen_updates % 120 == 0:
+            if self.alien_type == 1:
+                self.image = image1
+            elif self.alien_type == 2:
+                self.image = image2
+            if self.alien_type == 3:
+                self.image = image3
+            elif self.alien_type == 4:
+                self.image = image4
+            if self.alien_type == 5:
+                self.image = image5
+            elif self.alien_type == 6:
+                self.image = image6
+        self.x += (self.ai_settings.alien_speed_factor *
+                   self.ai_settings.fleet_direction)
+        self.rect.x = self.x
 
-    def load_images(self):
-        images = {0: ['1_2', '1_1'],
-                  1: ['2_2', '2_1'],
-                  2: ['2_2', '2_1'],
-                  3: ['3_1', '3_2'],
-                  4: ['3_1', '3_2'],
-                  }
-        img1, img2 = (IMAGES['enemy{}'.format(img_num)] for img_num in
-                      images[self.row])
-        self.images.append(transform.scale(img1, (40, 35)))
-        self.images.append(transform.scale(img2, (40, 35)))
+    def alien_destroyed(self, screen_updates):
+        if screen_updates % 10 == 0:
+            if self.destroyed == 1:
+                if self.alien_type == 1 or self.alien_type == 2:
+                    self.image = pygame.image.load('images/Alien1Destroy1.png')
+                elif self.alien_type == 3 or self.alien_type == 4:
+                    self.image = pygame.image.load('images/Alien2Destroy1.png')
+                elif self.alien_type == 5 or self.alien_type == 6:
+                    self.image = pygame.image.load('images/Alien3Destroy1.png')
+                self.destroyed += 1
+            elif self.destroyed == 2:
+                if self.alien_type == 1 or self.alien_type == 2:
+                    self.image = pygame.image.load('images/Alien1Destroy1.png')
+                elif self.alien_type == 3 or self.alien_type == 4:
+                    self.image = pygame.image.load('images/Alien2Destroy2.png')
+                elif self.alien_type == 5 or self.alien_type == 6:
+                    self.image = pygame.image.load('images/Alien3Destroy2.png')
+                self.destroyed += 1
+            elif self.destroyed == 3:
+                if self.alien_type == 1 or self.alien_type == 2:
+                    self.image = pygame.image.load('images/Alien1Destroy3.png')
+                elif self.alien_type == 3 or self.alien_type == 4:
+                    self.image = pygame.image.load('images/Alien2Destroy3.png')
+                elif self.alien_type == 5 or self.alien_type == 6:
+                    self.image = pygame.image.load('images/Alien3Destroy3.png')
+                self.destroyed += 1
+
+    def blitme(self):
+        """Draw the alien at its current location."""
+        self.screen.blit(self.image, self.rect)
